@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import './styles/App.css'
 import ClassCounter from './components/ClassCounter';
 import { Counter } from './components/Counter'
@@ -24,17 +24,18 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id))
     }
 
-    function getSortedPosts() {
-        console.log('getSortedPosts()');
+    const [selectedSort, setSelectedSort] = useState('')
+    // useMemo позволяет кэшировать те или иные значения
+    // Отслеживает изменения лишь в случае изменения 
+    // selectedSort или posts
+    const sortedPosts = useMemo(() => {
+        console.log('Функция sortedPosts с useMemo сработала!');
         if (selectedSort) {
             return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
         }
 
         return posts
-    }
-
-    const [selectedSort, setSelectedSort] = useState('')
-    const sortedPosts = getSortedPosts()
+    }, [selectedSort, posts])
 
     const sortPosts = (sort) => {
         setSelectedSort(sort)

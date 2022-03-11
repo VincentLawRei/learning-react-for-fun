@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const MySelect = ({ options, defaultValue, value, onChange }) => {
-    console.log(options);
     return (
         <select value={value} 
         onChange={event => onChange(event.target.value)}>
