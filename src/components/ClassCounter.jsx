@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 export class ClassCounter extends Component {
     constructor(props) {
@@ -19,15 +19,15 @@ export class ClassCounter extends Component {
     }
 
 
-  render() {
-    return (
-        <div>
-            <h1>{this.state.count}</h1>
-            <button onClick={this.increment}>Increment</button>
-            <button onClick={this.decrement}>Decrement</button>
-        </div>
-    )
-  }
+    render() {
+        return (
+            <div>
+                <h1>{this.state.count}</h1>
+                <button onClick={this.increment}>Increment</button>
+                <button onClick={this.decrement}>Decrement</button>
+            </div>
+        )
+    }
 }
 
 export default ClassCounter

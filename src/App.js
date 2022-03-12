@@ -1,20 +1,17 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, {useState, useRef, useMemo} from 'react'
 import './styles/App.css'
-import ClassCounter from './components/ClassCounter';
-import { Counter } from './components/Counter'
-import { MyButton } from './components/UI/button/MyButton';
-import { MyInput } from './components/UI/input/MyInput';
-import { PostItem } from './components/PostItem';
-import { PostList } from './components/PostList';
-import { PostForm } from './components/PostForm';
-import { MySelect } from './components/UI/select/MySelect';
+import {PostList} from './components/PostList';
+import {PostForm} from './components/PostForm';
+import {PostFilter} from './components/PostFilter';
 
 function App() {
     const [posts, setPosts] = useState([
-        { id: 1, title: 'Javascript', body: 'Aescription' },
-        { id: 2, title: 'Aavascript 2', body: 'Kescription' },
-        { id: 3, title: 'Cavascript 3', body: 'Eescription' },
+        {id: 1, title: 'Javascript', body: 'Aescription'},
+        {id: 2, title: 'Aavascript 2', body: 'Kescription'},
+        {id: 3, title: 'Cavascript 3', body: 'Eescription'},
     ])
+
+    const [filter, setFilter] = useState({sort: '', query: ''})
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -24,46 +21,35 @@ function App() {
         setPosts(posts.filter(p => p.id !== post.id))
     }
 
-    const [selectedSort, setSelectedSort] = useState('')
     // useMemo позволяет кэшировать те или иные значения
-    // Отслеживает изменения лишь в случае изменения 
+    // Отслеживает изменения лишь в случае изменения
     // selectedSort или posts
     const sortedPosts = useMemo(() => {
         console.log('Функция sortedPosts с useMemo сработала!');
-        if (selectedSort) {
-            return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+        if (filter.sort) {
+            return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
         }
-
         return posts
-    }, [selectedSort, posts])
+    }, [filter.sort, posts])
 
-    const sortPosts = (sort) => {
-        setSelectedSort(sort)
-    }
-
-    const [searchQuery, setSearchQuery] = useState('')
+    const sortedAndSearchedPosts = useMemo(() => {
+        return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()))
+    }, [filter.query, sortedPosts])
 
 
     return (
         <div className="App">
-            {/* <Counter />
-			<ClassCounter /> */}
-            <PostForm create={createPost} />
-
-            <div>
-                <MyInput value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
-                <MySelect value={selectedSort} onChange={sortPosts} defaultValue={"Сортировка"} options={[
-                    { value: 'title', name: 'По названию' },
-                    { value: 'body', name: 'По описанию' },
-                ]} />
-            </div>
-
-            {posts.length !== 0
-                ? <PostList remove={removePost} posts={sortedPosts} title={'Список постов'} />
-                : <h1 style={{ textAlign: "center" }}>Посты не были найдены!</h1>
+            <PostForm create={createPost}/>
+            <PostFilter filter={filter}
+                        setFilter={setFilter}/>
+            {sortedAndSearchedPosts.length !== 0
+                ? <PostList remove={removePost}
+                            posts={sortedAndSearchedPosts}
+                            title={'Список постов'}/>
+                : <h1 style={{textAlign: "center"}}>Посты не были найдены!</h1>
             }
         </div>
-    );
+    )
 }
 
 export default App;
