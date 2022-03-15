@@ -1,8 +1,9 @@
-import React, {useState, useRef, useMemo} from 'react'
+import React, {useMemo, useState} from 'react'
 import './styles/App.css'
 import {PostList} from './components/PostList';
 import {PostForm} from './components/PostForm';
 import {PostFilter} from './components/PostFilter';
+import OtherForm from "./components/OtherForm";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -48,6 +49,10 @@ function App() {
                             title={'Список постов'}/>
                 : <h1 style={{textAlign: "center"}}>Посты не были найдены!</h1>
             }
+
+            <hr style={{margin: "25px"}}/>
+
+            {/*<OtherForm create={createPost}/>*/}
         </div>
     )
 }

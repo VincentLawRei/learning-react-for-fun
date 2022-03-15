@@ -1,0 +1,10 @@
+.secondInput {
+    width: 100%;
+    color: black;
+    background: lightgrey;
+    padding: 10px 15px;
+}
+
+.secondInput::placeholder {
+    font-style: italic;
+}

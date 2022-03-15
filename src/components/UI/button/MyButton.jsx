@@ -5,7 +5,6 @@ export const MyButton = ({ children, ...props }) => {
     return (
         <button {...props} className={classes.myBtn}>
             {children}
-
         </button>
     )
 }
